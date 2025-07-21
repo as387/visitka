@@ -8,13 +8,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     :root {
-      --primary: #7c3aed;         /* более насыщенный фиолет */
+      --primary: #7c3aed;
       --primary-dark: #5b21b6;
       --primary-light: #a78bfa;
-      --bg: #0e0f1a;              /* чуть темнее и насыщенней */
-      --card-bg: rgba(255, 255, 255, 0.1); /* для стекломорфизма */
+      --bg: #0e0f1a;
+      --card-bg: rgba(255, 255, 255, 0.1);
       --card-border: rgba(124, 58, 237, 0.3);
-      --text-primary: #e0e7ff;    /* светло-синий */
+      --text-primary: #e0e7ff;
       --text-secondary: #a5b4fc;
       --shadow: rgba(124, 58, 237, 0.4);
       --bubble-light: rgba(124, 58, 237, 0.15);
@@ -42,7 +42,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Фон с пузырьками (с градиентом) */
+    /* Фон с пузырьками */
     .bg-bubbles {
       position: fixed;
       top: 0; left: 0;
@@ -351,7 +351,7 @@
   </style>
 </head>
 <body>
-  <ul class="bg-bubbles">
+  <ul class="bg-bubbles" aria-hidden="true">
     <li></li><li></li><li></li><li></li><li></li>
     <li></li><li></li><li></li><li></li><li></li>
   </ul>
@@ -361,9 +361,7 @@
       <img src="https://i.postimg.cc/VNKQw6f4/ava.jpg" alt="Аватар Саши" class="avatar" />
     </div>
     <h1>Саша</h1>
-    <p class="title">
-      Получаю удовольствие.<br />
-    </p>
+    <p class="title">Получаю удовольствие.</p>
     <nav class="links" aria-label="Контактные ссылки">
       <a href="https://t.me/AgT_art" target="_blank" rel="noopener noreferrer" aria-label="Telegram (основной)">
         <i class="fab fa-telegram"></i> Telegram (основной)
