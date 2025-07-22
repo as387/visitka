@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* Крестики на фоне - теперь видны четко */
+    /* Плавно перемещающиеся крестики */
     .bg-crosses {
       position: fixed;
       top: 0;
@@ -57,10 +57,10 @@
       height: 20px;
       background: #000000;
       border: 2px solid var(--primary);
-      opacity: 0;
-      animation: float 12s infinite linear;
+      opacity: 0.7;
       transform: rotate(45deg);
       box-shadow: 0 0 10px var(--primary);
+      animation: float 30s infinite linear;
     }
 
     .cross::before, .cross::after {
@@ -84,22 +84,23 @@
 
     @keyframes float {
       0% {
-        transform: translateY(110vh) rotate(45deg);
-        opacity: 0;
+        transform: translate(0, 0) rotate(45deg);
       }
-      20% {
-        opacity: 0.8;
+      25% {
+        transform: translate(20vw, 25vh) rotate(45deg);
       }
-      80% {
-        opacity: 0.8;
+      50% {
+        transform: translate(40vw, 10vh) rotate(45deg);
+      }
+      75% {
+        transform: translate(60vw, 30vh) rotate(45deg);
       }
       100% {
-        transform: translateY(-10vh) rotate(45deg);
-        opacity: 0;
+        transform: translate(80vw, 0) rotate(45deg);
       }
     }
 
-    /* Остальные стили остаются без изменений */
+    /* Остальные стили без изменений */
     .card {
       position: relative;
       background: var(--card-bg);
@@ -171,7 +172,6 @@
   </style>
 </head>
 <body>
-  <!-- Контейнер для крестиков -->
   <div class="bg-crosses" id="bgCrosses"></div>
 
   <div class="card">
@@ -193,24 +193,27 @@
   </div>
 
   <script>
-    // Генерация 30 крестиков
+    // Генерация 20 крестиков с разными траекториями
     const container = document.getElementById('bgCrosses');
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
       const cross = document.createElement('div');
       cross.className = 'cross';
       
-      // Позиционирование
+      // Начальная позиция
       cross.style.left = `${Math.random() * 100}%`;
       cross.style.top = `${Math.random() * 100}%`;
-      
-      // Разная скорость анимации
-      cross.style.animationDuration = `${8 + Math.random() * 10}s`;
-      cross.style.animationDelay = `${Math.random() * 5}s`;
       
       // Разный размер
       const size = 15 + Math.random() * 15;
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
+      
+      // Индивидуальная анимация
+      const duration = 20 + Math.random() * 40;
+      cross.style.animation = `float ${duration}s infinite linear`;
+      
+      // Случайная задержка
+      cross.style.animationDelay = `${Math.random() * 10}s`;
       
       container.appendChild(cross);
     }
