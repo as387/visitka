@@ -8,16 +8,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #e63946;
-      --primary-dark: #d90429;
-      --primary-light: #ff758f;
-      --bg: #0a0a0a;
-      --bg-light: #1a1a1a;
-      --card-bg: rgba(30, 30, 30, 0.85);
-      --card-border: rgba(230, 57, 70, 0.2);
-      --text-primary: #f8f9fa;
-      --text-secondary: #dee2e6;
-      --text-tertiary: #adb5bd;
+      --primary: #ff2e4d;
+      --primary-dark: #d10026;
+      --primary-light: #ff6b81;
+      --bg: #111111;
+      --bg-light: #1e1e1e;
+      --card-bg: rgba(30, 30, 30, 0.9);
+      --card-border: rgba(255, 46, 77, 0.3);
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --text-tertiary: #b0b0b0;
       --transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -41,22 +41,6 @@
     }
 
     /* Геометрический фон с крестиками и галочками */
-    .bg-pattern {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        linear-gradient(45deg, var(--bg) 25%, transparent 25%) -50px 0,
-        linear-gradient(-45deg, var(--bg) 25%, transparent 25%) -50px 0,
-        linear-gradient(45deg, transparent 75%, var(--bg-light) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--bg-light) 75%);
-      background-size: 100px 100px;
-      z-index: -2;
-      opacity: 0.8;
-    }
-
     .bg-elements {
       position: fixed;
       top: 0;
@@ -64,19 +48,20 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      opacity: 0.1;
+      overflow: hidden;
     }
 
     .bg-elements i {
       position: absolute;
-      font-size: 1.2rem;
-      color: var(--primary);
+      font-size: 1.5rem;
+      color: rgba(255, 46, 77, 0.15);
       animation: float 15s infinite linear;
+      opacity: 0;
     }
 
     @keyframes float {
       0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(100vh) rotate(0deg);
         opacity: 0;
       }
       10% {
@@ -86,7 +71,7 @@
         opacity: 0.3;
       }
       100% {
-        transform: translateY(-100vh) rotate(360deg);
+        transform: translateY(-100px) rotate(360deg);
         opacity: 0;
       }
     }
@@ -101,7 +86,10 @@
       width: 100%;
       padding: 2.5rem 2rem 3rem;
       text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      box-shadow: 
+        0 0 0 1px rgba(255, 46, 77, 0.1),
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 46, 77, 0.1);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       overflow: hidden;
@@ -110,42 +98,52 @@
 
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(230, 57, 70, 0.3);
-      border-color: rgba(230, 57, 70, 0.4);
+      box-shadow: 
+        0 0 0 1px rgba(255, 46, 77, 0.2),
+        0 15px 50px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(255, 46, 77, 0.2);
+      border-color: rgba(255, 46, 77, 0.4);
     }
 
     .card::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        to bottom right,
-        transparent 0%,
-        transparent 50%,
-        rgba(230, 57, 70, 0.1) 100%
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        400px at 50% 50%,
+        rgba(255, 46, 77, 0.1) 0%,
+        transparent 70%
       );
-      transform: rotate(30deg);
       z-index: -1;
     }
 
     /* Аватар */
+    .avatar-container {
+      margin-bottom: 1.8rem;
+    }
+
     .avatar {
       width: 110px;
       height: 110px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--primary);
-      box-shadow: 0 0 20px rgba(230, 57, 70, 0.4);
+      box-shadow: 
+        0 0 20px rgba(255, 46, 77, 0.4),
+        inset 0 0 20px rgba(255, 46, 77, 0.2);
       transition: var(--transition);
-      margin-bottom: 1.5rem;
+      filter: brightness(1.05);
     }
 
     .avatar:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(230, 57, 70, 0.6);
+      box-shadow: 
+        0 0 30px rgba(255, 46, 77, 0.6),
+        inset 0 0 25px rgba(255, 46, 77, 0.3);
+      filter: brightness(1.1);
     }
 
     /* Текст */
@@ -198,8 +196,8 @@
       gap: 0.8rem;
       padding: 1rem;
       border-radius: 12px;
-      background: rgba(50, 50, 50, 0.7);
-      border: 1px solid rgba(230, 57, 70, 0.2);
+      background: rgba(40, 40, 40, 0.7);
+      border: 1px solid rgba(255, 46, 77, 0.2);
       color: var(--text-primary);
       text-decoration: none;
       font-weight: 600;
@@ -207,10 +205,10 @@
     }
 
     .links a:hover {
-      background: rgba(230, 57, 70, 0.2);
+      background: rgba(255, 46, 77, 0.15);
       border-color: var(--primary);
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 46, 77, 0.3);
     }
 
     .links a i {
@@ -248,11 +246,12 @@
   </style>
 </head>
 <body>
-  <div class="bg-pattern"></div>
   <div class="bg-elements" id="bgElements"></div>
 
   <div class="card">
-    <img src="https://i.postimg.cc/VNKQw6f4/ava.jpg" alt="Аватар Саши" class="avatar">
+    <div class="avatar-container">
+      <img src="https://i.postimg.cc/VNKQw6f4/ava.jpg" alt="Аватар Саши" class="avatar">
+    </div>
     <h1>Саша</h1>
     <p class="title">Получаю удовольствие от создания и развития проектов</p>
     <div class="links">
@@ -272,15 +271,21 @@
   <script>
     // Создаем крестики и галочки на фоне
     const bgElements = document.getElementById('bgElements');
-    const icons = ['times', 'check', 'plus'];
+    const icons = ['times', 'check'];
     
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 40; i++) {
       const icon = document.createElement('i');
       icon.className = `fas fa-${icons[Math.floor(Math.random() * icons.length)]}`;
       
-      icon.style.left = `${Math.random() * 100}%`;
+      // Позиционируем иконки по краям экрана
+      if (Math.random() > 0.5) {
+        icon.style.left = `${Math.random() * 20}%`;
+      } else {
+        icon.style.left = `${80 + Math.random() * 20}%`;
+      }
+      
       icon.style.top = `${Math.random() * 100}%`;
-      icon.style.fontSize = `${Math.random() * 1 + 0.8}rem`;
+      icon.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
       icon.style.animationDuration = `${Math.random() * 10 + 10}s`;
       icon.style.animationDelay = `${Math.random() * 5}s`;
       
