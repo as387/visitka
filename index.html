@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* Крестики нового стиля */
+    /* Объемные полые крестики */
     .bg-crosses {
       position: fixed;
       top: 0;
@@ -53,47 +53,85 @@
 
     .cross {
       position: absolute;
-      width: 30px;
-      height: 30px;
-      opacity: 0.4;
-      animation: float 60s infinite linear alternate;
+      width: 40px;
+      height: 40px;
+      opacity: 0.5;
+      animation: float 40s infinite linear alternate;
       transform: translate(0, 0);
     }
 
-    .cross .line {
+    /* Верхняя горизонтальная линия */
+    .cross .top {
       position: absolute;
-      background: var(--primary);
-      width: 12px;
+      top: 0;
+      left: 10px;
+      width: 20px;
       height: 2px;
+      background: var(--primary);
       box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Верхний левый угол */
-    .cross .line1 {
-      top: 5px;
+    /* Нижняя горизонтальная линия */
+    .cross .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 10px;
+      width: 20px;
+      height: 2px;
+      background: var(--primary);
+      box-shadow: 0 0 5px var(--primary);
+    }
+
+    /* Левая наклонная линия (верхняя часть) */
+    .cross .left-top {
+      position: absolute;
+      top: 2px;
       left: 0;
+      width: 12px;
+      height: 2px;
+      background: var(--primary);
       transform: rotate(45deg);
+      transform-origin: left center;
+      box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Верхний правый угол */
-    .cross .line2 {
-      top: 5px;
-      right: 0;
-      transform: rotate(-45deg);
-    }
-
-    /* Нижний левый угол */
-    .cross .line3 {
-      bottom: 5px;
+    /* Левая наклонная линия (нижняя часть) */
+    .cross .left-bottom {
+      position: absolute;
+      bottom: 2px;
       left: 0;
+      width: 12px;
+      height: 2px;
+      background: var(--primary);
       transform: rotate(-45deg);
+      transform-origin: left center;
+      box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Нижний правый угол */
-    .cross .line4 {
-      bottom: 5px;
+    /* Правая наклонная линия (верхняя часть) */
+    .cross .right-top {
+      position: absolute;
+      top: 2px;
       right: 0;
+      width: 12px;
+      height: 2px;
+      background: var(--primary);
+      transform: rotate(-45deg);
+      transform-origin: right center;
+      box-shadow: 0 0 5px var(--primary);
+    }
+
+    /* Правая наклонная линия (нижняя часть) */
+    .cross .right-bottom {
+      position: absolute;
+      bottom: 2px;
+      right: 0;
+      width: 12px;
+      height: 2px;
+      background: var(--primary);
       transform: rotate(45deg);
+      transform-origin: right center;
+      box-shadow: 0 0 5px var(--primary);
     }
 
     @keyframes float {
@@ -198,32 +236,38 @@
   </div>
 
   <script>
-    // Генерация 20 крестиков нового стиля
+    // Генерация 15 объемных крестиков
     const container = document.getElementById('bgCrosses');
-    const crossCount = 20;
-    const maxMove = 30; // Максимальное смещение в vw/vh
+    const crossCount = 15;
+    const maxMove = 20; // Максимальное смещение в vw/vh
     
     for (let i = 0; i < crossCount; i++) {
       const cross = document.createElement('div');
       cross.className = 'cross';
       
-      // Начальная позиция (с отступом от краев)
-      const startX = 10 + Math.random() * 80;
-      const startY = 10 + Math.random() * 80;
+      // Начальная позиция
+      const startX = 5 + Math.random() * 90;
+      const startY = 5 + Math.random() * 90;
       cross.style.left = `${startX}%`;
       cross.style.top = `${startY}%`;
       
       // Разный размер
-      const size = 20 + Math.random() * 20;
+      const size = 30 + Math.random() * 30;
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
       
-      // Создаем 4 линии для креста
-      for (let j = 1; j <= 4; j++) {
-        const line = document.createElement('div');
-        line.className = `line line${j}`;
-        cross.appendChild(line);
-      }
+      // Создаем элементы креста
+      const elements = [
+        'top', 'bottom', 
+        'left-top', 'left-bottom',
+        'right-top', 'right-bottom'
+      ];
+      
+      elements.forEach(el => {
+        const elem = document.createElement('div');
+        elem.className = el;
+        cross.appendChild(elem);
+      });
       
       // Генерация смещения
       const moveX = (Math.random() - 0.5) * maxMove;
@@ -234,11 +278,11 @@
       cross.style.setProperty('--move-y', `${moveY}vh`);
       
       // Разная скорость
-      const duration = 30 + Math.random() * 60;
+      const duration = 30 + Math.random() * 50;
       cross.style.animationDuration = `${duration}s`;
       
       // Разная задержка
-      cross.style.animationDelay = `${Math.random() * 30}s`;
+      cross.style.animationDelay = `${Math.random() * 20}s`;
       
       // Разная прозрачность
       cross.style.opacity = `${0.3 + Math.random() * 0.4}`;
