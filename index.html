@@ -56,67 +56,56 @@
       width: 30px;
       height: 30px;
       opacity: 0.4;
-      animation: float 60s infinite linear;
+      animation: float 60s infinite linear alternate;
+      transform: translate(0, 0);
     }
 
-    .cross::before, .cross::after {
-      content: '';
+    .cross .line {
       position: absolute;
       background: var(--primary);
       width: 12px;
       height: 2px;
+      box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Левая часть креста */
-    .cross::before {
+    /* Верхний левый угол */
+    .cross .line1 {
       top: 5px;
       left: 0;
       transform: rotate(45deg);
-      box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Правая часть креста */
-    .cross::after {
+    /* Верхний правый угол */
+    .cross .line2 {
       top: 5px;
       right: 0;
       transform: rotate(-45deg);
-      box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Нижняя часть креста */
-    .cross .part1 {
-      position: absolute;
-      background: var(--primary);
-      width: 12px;
-      height: 2px;
+    /* Нижний левый угол */
+    .cross .line3 {
       bottom: 5px;
       left: 0;
       transform: rotate(-45deg);
-      box-shadow: 0 0 5px var(--primary);
     }
 
-    /* Верхняя часть креста */
-    .cross .part2 {
-      position: absolute;
-      background: var(--primary);
-      width: 12px;
-      height: 2px;
+    /* Нижний правый угол */
+    .cross .line4 {
       bottom: 5px;
       right: 0;
       transform: rotate(45deg);
-      box-shadow: 0 0 5px var(--primary);
     }
 
     @keyframes float {
       0% {
-        transform: translate(var(--start-x), var(--start-y));
+        transform: translate(0, 0);
       }
       100% {
-        transform: translate(var(--end-x), var(--end-y));
+        transform: translate(var(--move-x), var(--move-y));
       }
     }
 
-    /* Остальные стили остаются без изменений */
+    /* Остальные стили */
     .card {
       position: relative;
       background: var(--card-bg);
@@ -212,7 +201,7 @@
     // Генерация 20 крестиков нового стиля
     const container = document.getElementById('bgCrosses');
     const crossCount = 20;
-    const maxOffset = 30;
+    const maxMove = 30; // Максимальное смещение в vw/vh
     
     for (let i = 0; i < crossCount; i++) {
       const cross = document.createElement('div');
@@ -229,35 +218,24 @@
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
       
-      // Добавляем дополнительные элементы для креста
-      const part1 = document.createElement('div');
-      part1.className = 'part1';
-      cross.appendChild(part1);
+      // Создаем 4 линии для креста
+      for (let j = 1; j <= 4; j++) {
+        const line = document.createElement('div');
+        line.className = `line line${j}`;
+        cross.appendChild(line);
+      }
       
-      const part2 = document.createElement('div');
-      part2.className = 'part2';
-      cross.appendChild(part2);
-      
-      // Генерация конечной позиции
-      const endX = startX + (Math.random() - 0.5) * maxOffset;
-      const endY = startY + (Math.random() - 0.5) * maxOffset;
-      
-      // Корректировка, чтобы не выходили за границы
-      const safeEndX = Math.max(5, Math.min(95, endX));
-      const safeEndY = Math.max(5, Math.min(95, endY));
+      // Генерация смещения
+      const moveX = (Math.random() - 0.5) * maxMove;
+      const moveY = (Math.random() - 0.5) * maxMove;
       
       // Установка CSS-переменных для анимации
-      cross.style.setProperty('--start-x', '0');
-      cross.style.setProperty('--start-y', '0');
-      cross.style.setProperty('--end-x', `${safeEndX - startX}vw`);
-      cross.style.setProperty('--end-y', `${safeEndY - startY}vh`);
+      cross.style.setProperty('--move-x', `${moveX}vw`);
+      cross.style.setProperty('--move-y', `${moveY}vh`);
       
       // Разная скорость
       const duration = 30 + Math.random() * 60;
       cross.style.animationDuration = `${duration}s`;
-      
-      // Обратная анимация
-      cross.style.animationDirection = 'alternate';
       
       // Разная задержка
       cross.style.animationDelay = `${Math.random() * 30}s`;
