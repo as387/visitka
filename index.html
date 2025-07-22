@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* Крестики с плавным хаотичным движением */
+    /* Крестики нового стиля */
     .bg-crosses {
       position: fixed;
       top: 0;
@@ -53,13 +53,9 @@
 
     .cross {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: #000000;
-      border: 2px solid var(--primary);
-      opacity: 0.6;
-      transform: rotate(45deg);
-      box-shadow: 0 0 10px var(--primary);
+      width: 30px;
+      height: 30px;
+      opacity: 0.4;
       animation: float 60s infinite linear;
     }
 
@@ -67,31 +63,60 @@
       content: '';
       position: absolute;
       background: var(--primary);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .cross::before {
       width: 12px;
       height: 2px;
     }
 
+    /* Левая часть креста */
+    .cross::before {
+      top: 5px;
+      left: 0;
+      transform: rotate(45deg);
+      box-shadow: 0 0 5px var(--primary);
+    }
+
+    /* Правая часть креста */
     .cross::after {
-      width: 2px;
-      height: 12px;
+      top: 5px;
+      right: 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 5px var(--primary);
+    }
+
+    /* Нижняя часть креста */
+    .cross .part1 {
+      position: absolute;
+      background: var(--primary);
+      width: 12px;
+      height: 2px;
+      bottom: 5px;
+      left: 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 5px var(--primary);
+    }
+
+    /* Верхняя часть креста */
+    .cross .part2 {
+      position: absolute;
+      background: var(--primary);
+      width: 12px;
+      height: 2px;
+      bottom: 5px;
+      right: 0;
+      transform: rotate(45deg);
+      box-shadow: 0 0 5px var(--primary);
     }
 
     @keyframes float {
       0% {
-        transform: translate(var(--start-x), var(--start-y)) rotate(45deg);
+        transform: translate(var(--start-x), var(--start-y));
       }
       100% {
-        transform: translate(var(--end-x), var(--end-y)) rotate(45deg);
+        transform: translate(var(--end-x), var(--end-y));
       }
     }
 
-    /* Остальные стили */
+    /* Остальные стили остаются без изменений */
     .card {
       position: relative;
       background: var(--card-bg);
@@ -184,10 +209,10 @@
   </div>
 
   <script>
-    // Генерация 20 крестиков с контролируемыми траекториями
+    // Генерация 20 крестиков нового стиля
     const container = document.getElementById('bgCrosses');
     const crossCount = 20;
-    const maxOffset = 30; // Максимальное смещение в vw/vh
+    const maxOffset = 30;
     
     for (let i = 0; i < crossCount; i++) {
       const cross = document.createElement('div');
@@ -200,11 +225,20 @@
       cross.style.top = `${startY}%`;
       
       // Разный размер
-      const size = 15 + Math.random() * 15;
+      const size = 20 + Math.random() * 20;
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
       
-      // Генерация конечной позиции (в пределах безопасной зоны)
+      // Добавляем дополнительные элементы для креста
+      const part1 = document.createElement('div');
+      part1.className = 'part1';
+      cross.appendChild(part1);
+      
+      const part2 = document.createElement('div');
+      part2.className = 'part2';
+      cross.appendChild(part2);
+      
+      // Генерация конечной позиции
       const endX = startX + (Math.random() - 0.5) * maxOffset;
       const endY = startY + (Math.random() - 0.5) * maxOffset;
       
@@ -222,11 +256,14 @@
       const duration = 30 + Math.random() * 60;
       cross.style.animationDuration = `${duration}s`;
       
-      // Обратная анимация для бесконечного движения
+      // Обратная анимация
       cross.style.animationDirection = 'alternate';
       
       // Разная задержка
       cross.style.animationDelay = `${Math.random() * 30}s`;
+      
+      // Разная прозрачность
+      cross.style.opacity = `${0.3 + Math.random() * 0.4}`;
       
       container.appendChild(cross);
     }
