@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* Крестики на фоне */
+    /* Крестики на фоне - теперь видны четко */
     .bg-crosses {
       position: fixed;
       top: 0;
@@ -53,15 +53,14 @@
 
     .cross {
       position: absolute;
-      width: 24px;
-      height: 24px;
-      background: var(--bg);
+      width: 20px;
+      height: 20px;
+      background: #000000;
       border: 2px solid var(--primary);
-      border-radius: 3px;
       opacity: 0;
-      animation: float 15s infinite linear;
+      animation: float 12s infinite linear;
       transform: rotate(45deg);
-      box-shadow: 0 0 8px var(--primary);
+      box-shadow: 0 0 10px var(--primary);
     }
 
     .cross::before, .cross::after {
@@ -74,33 +73,33 @@
     }
 
     .cross::before {
-      width: 14px;
+      width: 12px;
       height: 2px;
     }
 
     .cross::after {
       width: 2px;
-      height: 14px;
+      height: 12px;
     }
 
     @keyframes float {
       0% {
-        transform: translateY(100vh) rotate(45deg) scale(0.8);
+        transform: translateY(110vh) rotate(45deg);
         opacity: 0;
       }
-      10% {
-        opacity: 0.6;
+      20% {
+        opacity: 0.8;
       }
-      90% {
-        opacity: 0.6;
+      80% {
+        opacity: 0.8;
       }
       100% {
-        transform: translateY(-100px) rotate(45deg) scale(1);
+        transform: translateY(-10vh) rotate(45deg);
         opacity: 0;
       }
     }
 
-    /* Карточка */
+    /* Остальные стили остаются без изменений */
     .card {
       position: relative;
       background: var(--card-bg);
@@ -110,37 +109,21 @@
       width: 100%;
       padding: 2.5rem 2rem 3rem;
       text-align: center;
-      box-shadow: 
-        0 0 0 1px rgba(255, 46, 77, 0.1),
-        0 10px 40px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(255, 46, 77, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       overflow: hidden;
       transition: var(--transition);
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 0 0 1px rgba(255, 46, 77, 0.2),
-        0 15px 50px rgba(0, 0, 0, 0.6),
-        0 0 50px rgba(255, 46, 77, 0.2);
-      border-color: rgba(255, 46, 77, 0.4);
-    }
-
-    /* Остальные стили (аватар, текст, ссылки) остаются как в предыдущем варианте */
     .avatar {
       width: 110px;
       height: 110px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--primary);
-      box-shadow: 
-        0 0 20px rgba(255, 46, 77, 0.4),
-        inset 0 0 20px rgba(255, 46, 77, 0.2);
+      box-shadow: 0 0 20px rgba(255, 46, 77, 0.4);
       transition: var(--transition);
-      filter: brightness(1.05);
       margin-bottom: 1.8rem;
     }
 
@@ -180,35 +163,15 @@
       transition: var(--transition);
     }
 
-    .links a:hover {
-      background: rgba(255, 46, 77, 0.15);
-      border-color: var(--primary);
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(255, 46, 77, 0.3);
-    }
-
     footer {
       font-size: 0.8rem;
       color: var(--text-tertiary);
       letter-spacing: 0.5px;
     }
-
-    @media (max-width: 480px) {
-      .card {
-        padding: 2rem 1.5rem;
-        max-width: 90vw;
-      }
-      h1 {
-        font-size: 1.8rem;
-      }
-      .avatar {
-        width: 90px;
-        height: 90px;
-      }
-    }
   </style>
 </head>
 <body>
+  <!-- Контейнер для крестиков -->
   <div class="bg-crosses" id="bgCrosses"></div>
 
   <div class="card">
@@ -230,30 +193,26 @@
   </div>
 
   <script>
-    // Создаем летающие крестики
-    const bgCrosses = document.getElementById('bgCrosses');
-    const crossCount = 25;
-    
-    for (let i = 0; i < crossCount; i++) {
+    // Генерация 30 крестиков
+    const container = document.getElementById('bgCrosses');
+    for (let i = 0; i < 30; i++) {
       const cross = document.createElement('div');
       cross.className = 'cross';
       
-      // Позиционируем крестики по всей ширине
+      // Позиционирование
       cross.style.left = `${Math.random() * 100}%`;
       cross.style.top = `${Math.random() * 100}%`;
       
-      // Разный размер и скорость анимации
-      const size = 16 + Math.random() * 16;
+      // Разная скорость анимации
+      cross.style.animationDuration = `${8 + Math.random() * 10}s`;
+      cross.style.animationDelay = `${Math.random() * 5}s`;
+      
+      // Разный размер
+      const size = 15 + Math.random() * 15;
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
       
-      cross.style.animationDuration = `${10 + Math.random() * 15}s`;
-      cross.style.animationDelay = `${Math.random() * 5}s`;
-      
-      // Разная прозрачность
-      cross.style.opacity = `${0.3 + Math.random() * 0.4}`;
-      
-      bgCrosses.appendChild(cross);
+      container.appendChild(cross);
     }
   </script>
 </body>
