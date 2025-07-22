@@ -60,7 +60,7 @@
       opacity: 0.6;
       transform: rotate(45deg);
       box-shadow: 0 0 10px var(--primary);
-      animation: float 60s infinite alternate ease-in-out;
+      animation: float 60s infinite linear;
     }
 
     .cross::before, .cross::after {
@@ -84,19 +84,10 @@
 
     @keyframes float {
       0% {
-        transform: translate(0, 0) rotate(45deg);
-      }
-      25% {
-        transform: translate(var(--tx1), var(--ty1)) rotate(45deg);
-      }
-      50% {
-        transform: translate(var(--tx2), var(--ty2)) rotate(45deg);
-      }
-      75% {
-        transform: translate(var(--tx3), var(--ty3)) rotate(45deg);
+        transform: translate(var(--start-x), var(--start-y)) rotate(45deg);
       }
       100% {
-        transform: translate(var(--tx4), var(--ty4)) rotate(45deg);
+        transform: translate(var(--end-x), var(--end-y)) rotate(45deg);
       }
     }
 
@@ -193,17 +184,18 @@
   </div>
 
   <script>
-    // Генерация 20 крестиков с уникальными траекториями
+    // Генерация 20 крестиков с контролируемыми траекториями
     const container = document.getElementById('bgCrosses');
     const crossCount = 20;
+    const maxOffset = 30; // Максимальное смещение в vw/vh
     
     for (let i = 0; i < crossCount; i++) {
       const cross = document.createElement('div');
       cross.className = 'cross';
       
-      // Начальная позиция (случайная)
-      const startX = Math.random() * 100;
-      const startY = Math.random() * 100;
+      // Начальная позиция (с отступом от краев)
+      const startX = 10 + Math.random() * 80;
+      const startY = 10 + Math.random() * 80;
       cross.style.left = `${startX}%`;
       cross.style.top = `${startY}%`;
       
@@ -212,23 +204,29 @@
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
       
-      // Генерация уникальной траектории для каждого крестика
-      const generateOffset = () => (Math.random() - 0.5) * 40;
+      // Генерация конечной позиции (в пределах безопасной зоны)
+      const endX = startX + (Math.random() - 0.5) * maxOffset;
+      const endY = startY + (Math.random() - 0.5) * maxOffset;
       
-      cross.style.setProperty('--tx1', `${generateOffset()}vw`);
-      cross.style.setProperty('--ty1', `${generateOffset()}vh`);
-      cross.style.setProperty('--tx2', `${generateOffset()}vw`);
-      cross.style.setProperty('--ty2', `${generateOffset()}vh`);
-      cross.style.setProperty('--tx3', `${generateOffset()}vw`);
-      cross.style.setProperty('--ty3', `${generateOffset()}vh`);
-      cross.style.setProperty('--tx4', `${generateOffset()}vw`);
-      cross.style.setProperty('--ty4', `${generateOffset()}vh`);
+      // Корректировка, чтобы не выходили за границы
+      const safeEndX = Math.max(5, Math.min(95, endX));
+      const safeEndY = Math.max(5, Math.min(95, endY));
       
-      // Разная скорость и задержка
+      // Установка CSS-переменных для анимации
+      cross.style.setProperty('--start-x', '0');
+      cross.style.setProperty('--start-y', '0');
+      cross.style.setProperty('--end-x', `${safeEndX - startX}vw`);
+      cross.style.setProperty('--end-y', `${safeEndY - startY}vh`);
+      
+      // Разная скорость
       const duration = 30 + Math.random() * 60;
-      const delay = Math.random() * 30;
       cross.style.animationDuration = `${duration}s`;
-      cross.style.animationDelay = `-${delay}s`; // Отрицательная задержка для разного старта
+      
+      // Обратная анимация для бесконечного движения
+      cross.style.animationDirection = 'alternate';
+      
+      // Разная задержка
+      cross.style.animationDelay = `${Math.random() * 30}s`;
       
       container.appendChild(cross);
     }
