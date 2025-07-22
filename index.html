@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* Крестики со случайным движением */
+    /* Крестики с плавным хаотичным движением */
     .bg-crosses {
       position: fixed;
       top: 0;
@@ -60,7 +60,7 @@
       opacity: 0.6;
       transform: rotate(45deg);
       box-shadow: 0 0 10px var(--primary);
-      animation: float 30s infinite linear;
+      animation: float 60s infinite alternate ease-in-out;
     }
 
     .cross::before, .cross::after {
@@ -87,20 +87,20 @@
         transform: translate(0, 0) rotate(45deg);
       }
       25% {
-        transform: translate(var(--move-x1), var(--move-y1)) rotate(45deg);
+        transform: translate(var(--tx1), var(--ty1)) rotate(45deg);
       }
       50% {
-        transform: translate(var(--move-x2), var(--move-y2)) rotate(45deg);
+        transform: translate(var(--tx2), var(--ty2)) rotate(45deg);
       }
       75% {
-        transform: translate(var(--move-x3), var(--move-y3)) rotate(45deg);
+        transform: translate(var(--tx3), var(--ty3)) rotate(45deg);
       }
       100% {
-        transform: translate(0, 0) rotate(45deg);
+        transform: translate(var(--tx4), var(--ty4)) rotate(45deg);
       }
     }
 
-    /* Остальные стили без изменений */
+    /* Остальные стили */
     .card {
       position: relative;
       background: var(--card-bg);
@@ -193,9 +193,9 @@
   </div>
 
   <script>
-    // Генерация 25 крестиков со случайными траекториями
+    // Генерация 20 крестиков с уникальными траекториями
     const container = document.getElementById('bgCrosses');
-    const crossCount = 25;
+    const crossCount = 20;
     
     for (let i = 0; i < crossCount; i++) {
       const cross = document.createElement('div');
@@ -212,25 +212,23 @@
       cross.style.width = `${size}px`;
       cross.style.height = `${size}px`;
       
-      // Генерация случайных точек для движения
-      const moveX1 = (Math.random() - 0.5) * 40;
-      const moveY1 = (Math.random() - 0.5) * 40;
-      const moveX2 = (Math.random() - 0.5) * 60;
-      const moveY2 = (Math.random() - 0.5) * 60;
-      const moveX3 = (Math.random() - 0.5) * 40;
-      const moveY3 = (Math.random() - 0.5) * 40;
+      // Генерация уникальной траектории для каждого крестика
+      const generateOffset = () => (Math.random() - 0.5) * 40;
       
-      // Установка CSS-переменных для анимации
-      cross.style.setProperty('--move-x1', `${moveX1}vw`);
-      cross.style.setProperty('--move-y1', `${moveY1}vh`);
-      cross.style.setProperty('--move-x2', `${moveX2}vw`);
-      cross.style.setProperty('--move-y2', `${moveY2}vh`);
-      cross.style.setProperty('--move-x3', `${moveX3}vw`);
-      cross.style.setProperty('--move-y3', `${moveY3}vh`);
+      cross.style.setProperty('--tx1', `${generateOffset()}vw`);
+      cross.style.setProperty('--ty1', `${generateOffset()}vh`);
+      cross.style.setProperty('--tx2', `${generateOffset()}vw`);
+      cross.style.setProperty('--ty2', `${generateOffset()}vh`);
+      cross.style.setProperty('--tx3', `${generateOffset()}vw`);
+      cross.style.setProperty('--ty3', `${generateOffset()}vh`);
+      cross.style.setProperty('--tx4', `${generateOffset()}vw`);
+      cross.style.setProperty('--ty4', `${generateOffset()}vh`);
       
-      // Разная скорость анимации
-      const duration = 20 + Math.random() * 40;
+      // Разная скорость и задержка
+      const duration = 30 + Math.random() * 60;
+      const delay = Math.random() * 30;
       cross.style.animationDuration = `${duration}s`;
+      cross.style.animationDelay = `-${delay}s`; // Отрицательная задержка для разного старта
       
       container.appendChild(cross);
     }
